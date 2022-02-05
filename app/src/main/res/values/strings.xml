@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name" translatable="false">Poly\'Energy</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA6Sbv6Es-0CEEYZ_frHy9t_vTxGOLWWTY</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_signup">Sign Up</string>
+    <string name="menu_carmap">Map of car loading station</string>
+
+    <string name="country">United States</string>
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or sign up</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">Welcome !</string>
+    <string name="invalid_username">Invalid e-mail</string>
+    <string name="invalid_password">Password too short, more than 5 characters required</string>
+    <string name="login_failed">Connexion failed</string>
+    <string name="login_success">Successful connexion </string>
+    <string name="login">Login</string>
+    <string name="not_same_password">Passwords don\'t match</string>
+    <string name="email_title">E-mail</string>
+    <string name="create_account">Create an account</string>
+    <string name="pwd_verify">Verify your password</string>
+    <string name="register">Sign up</string>
+    <string name="account_existing">Existing account ?</string>
+    <string name="validate">Validate</string>
+    <string name="email_hint">Enter your e-mail</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="verif_pwd">Verify your password</string>
+</resources>

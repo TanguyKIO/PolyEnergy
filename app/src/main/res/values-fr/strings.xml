@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="menu_home">Accueil</string>
+    <string name="menu_login">Se connecter</string>
+    <string name="menu_signup">S\'inscrire</string>
+    <string name="menu_carmap">Carte des bornes de recharges</string>
+
+    <string name="country">France</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="action_sign_in">Connexion ou création de compte</string>
+    <string name="action_sign_in_short">Se connecter</string>
+    <string name="welcome">Bienvenue !</string>
+    <string name="invalid_username">Email invalide</string>
+    <string name="invalid_password">Mot de passe trop court, minimum 5 caractères</string>
+    <string name="login_failed">Erreur de connexion</string>
+    <string name="login_success">Connexion réussie</string>
+    <string name="login">Connexion</string>
+    <string name="not_same_password">Les mots de passes ne correspondent pas</string>
+    <string name="email_title">E-mail</string>
+    <string name="create_account">Créer un compte</string>
+    <string name="pwd_verify">Vérifier mot de passe</string>
+    <string name="register">S\'inscrire</string>
+    <string name="account_existing">Déjà un compte ?</string>
+    <string name="validate">Valider</string>
+    <string name="email_hint">Entrer votre e-mail</string>
+    <string name="password_hint">Saisir votre mot de passe</string>
+    <string name="verif_pwd">Vérifier votre mot de passe</string>
+</resources>

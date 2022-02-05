@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.polyenergy.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_carmap"
+        android:name="com.example.polyenergy.ui.carmap.CarMapFragment"
+        android:label="@string/menu_carmap"
+        tools:layout="@layout/fragment_carmap" />
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.example.polyenergy.ui.login.LoginFragment"
+        android:label="@string/menu_login"
+        tools:layout="@layout/fragment_login" >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_signup"
+        android:name="com.example.polyenergy.ui.register.RegisterFragment"
+        android:label="@string/menu_signup"
+        tools:layout="@layout/fragment_signup" >
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_home"
+        app:destination="@id/nav_home" />
+
+    <action
+        android:id="@+id/action_global_map"
+        app:destination="@id/nav_carmap" />
+
+    <action android:id="@+id/action_global_login"
+        app:destination="@id/nav_login"/>
+
+    <action android:id="@+id/action_global_signup"
+        app:destination="@id/nav_signup"/>
+</navigation>
