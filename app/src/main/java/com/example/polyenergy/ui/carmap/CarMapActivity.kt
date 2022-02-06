@@ -20,5 +20,5 @@ class CarMapActivity : AppCompatActivity() {
             addMarkers(googleMap)
         }
     }
-    
+
 }

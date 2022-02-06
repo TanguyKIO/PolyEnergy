@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Poly\'Energy</string>
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA6Sbv6Es-0CEEYZ_frHy9t_vTxGOLWWTY</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_login">Login</string>
