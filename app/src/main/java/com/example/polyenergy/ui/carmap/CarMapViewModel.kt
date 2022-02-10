@@ -41,7 +41,7 @@ class CarMapViewModel : ViewModel() {
                 val minLong = longitude + 0.1
                 val verbose = false
                 val compact = true
-                val boundBox = "($minLat,$minLong),($$maxLat,$maxLong)"
+                val boundBox = "($maxLat,$minLong),($$minLat,$maxLong)"
                 val getCharges = OpenChargeApi.retrofitService.getOpenCharges(
                     boundBox,
                     verbose,

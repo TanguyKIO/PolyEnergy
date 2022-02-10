@@ -64,7 +64,7 @@ class LoginFragment : Fragment() {
             Observer { loginResult ->
                 loginResult ?: return@Observer
                 loadingProgressBar.visibility = View.GONE
-                Navigation.findNavController(view).navigate(R.id.action_global_map)
+                if(loginResult.success != null) Navigation.findNavController(view).navigate(R.id.action_global_map)
             })
 
         val afterTextChangedListener = object : TextWatcher {

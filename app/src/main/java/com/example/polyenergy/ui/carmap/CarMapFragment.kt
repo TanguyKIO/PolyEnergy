@@ -49,6 +49,9 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
 
+    private var cameraInitialized: Boolean = false
+    private var isSearchResult: Boolean = false
+
     private val bicycleIcon: BitmapDescriptor by lazy {
         val color = ContextCompat.getColor(requireContext(), R.color.blue)
         BitmapHelper.vectorToBitmap(requireContext(), R.drawable.ic_charge_icon, color)
@@ -61,10 +64,10 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        cameraInitialized = false
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync { googleMap ->
             addMarkers(googleMap)
             if (ContextCompat.checkSelfPermission(
@@ -77,14 +80,64 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
                 googleMap.setOnMyLocationButtonClickListener(this)
             }
             map = googleMap
+            setCameraOnFavPlace()
         }
 
+
+
+        requestLocationPermission()
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                for (location in locationResult.locations) {
+                    viewModel.loadCharges(location.latitude, location.longitude)
+                    if(!cameraInitialized) {
+                        map.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(location.latitude, location.longitude),
+                                15F
+                            )
+                        )
+                        cameraInitialized = true
+                    }
+                }
+            }
+        }
+
+        requestNewLocationData()
+
+        binding.loginButtonMap.setOnClickListener {
+            val cookie = requireContext().getSharedPreferences(
+                this.getString(R.string.app_name),
+                Context.MODE_PRIVATE
+            ).getString(USER_COOKIE, null)
+            if (cookie != null) {
+                Navigation.findNavController(binding.root).navigate(R.id.action_global_fav)
+            } else {
+                Navigation.findNavController(binding.root).navigate(R.id.action_global_login)
+            }
+        }
+
+        setAutoCompletePlaces()
+
+        return binding.root
+    }
+
+    private fun setCameraOnFavPlace() {
         val latitude = arguments?.getDouble(LATITUDE)
         val longitude = arguments?.getDouble(LONGITUDE)
         if (latitude != null && longitude != null) {
-
+            map.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(latitude, longitude),
+                    15F
+                )
+            )
+            cameraInitialized = true
         }
+    }
 
+    private fun requestLocationPermission() {
         val locationPermissionRequest = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { permissions ->
@@ -106,35 +159,9 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
+    }
 
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                for (location in locationResult.locations) {
-                    viewModel.loadCharges(location.latitude, location.longitude)
-                    map.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                            LatLng(location.latitude, location.longitude),
-                            15F
-                        )
-                    )
-                }
-            }
-        }
-
-        requestNewLocationData()
-
-        binding.loginButtonMap.setOnClickListener {
-            val cookie = requireContext().getSharedPreferences(
-                this.getString(R.string.app_name),
-                Context.MODE_PRIVATE
-            ).getString(USER_COOKIE, null)
-            if (cookie != null) {
-                Navigation.findNavController(binding.root).navigate(R.id.action_global_fav)
-            } else {
-                Navigation.findNavController(binding.root).navigate(R.id.action_global_login)
-            }
-        }
-
+    private fun setAutoCompletePlaces() {
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), "AIzaSyA6Sbv6Es-0CEEYZ_frHy9t_vTxGOLWWTY")
         }
@@ -145,6 +172,7 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
             it.setOnPlaceSelectedListener(object : PlaceSelectionListener {
                 override fun onPlaceSelected(place: Place) {
                     viewModel.loadCharges(place.latLng.latitude, place.latLng.longitude)
+                    isSearchResult = true
                 }
 
                 override fun onError(status: Status) {
@@ -156,7 +184,6 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
                 }
             })
         }
-        return binding.root
     }
 
 
@@ -225,16 +252,17 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
                             .icon(bicycleIcon)
                     )
                     marker?.tag = charge
-                    if (count == 0)
+                    if (count == 0 && isSearchResult) {
                         map.animateCamera(
                             CameraUpdateFactory.newLatLngZoom(
                                 LatLng(charge.addressInfo.latitude, charge.addressInfo.longitude),
                                 15F
                             )
                         )
+                        cameraInitialized = true
+                    }
                     count++
                 }
-
             }
         }
 

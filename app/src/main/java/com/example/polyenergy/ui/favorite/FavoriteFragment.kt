@@ -69,7 +69,7 @@ class FavoriteFragment : Fragment() {
         }
 
         viewModel.result.observe(viewLifecycleOwner) {
-            if (!it.succes.isNullOrEmpty()) {
+            if (!it.success.isNullOrEmpty()) {
                 items.remove(lastDeleted)
                 adapter.items = items
                 adapter.notifyDataSetChanged()
@@ -79,6 +79,7 @@ class FavoriteFragment : Fragment() {
         }
 
         viewModel.favorites.observe(viewLifecycleOwner) {
+            items = it as MutableList<ChargeInfo>
             adapter.items = it
             adapter.notifyDataSetChanged()
         }
@@ -90,6 +91,7 @@ class FavoriteFragment : Fragment() {
             Context.MODE_PRIVATE
         ).getString(USER_COOKIE, null)
         if (cookie != null) {
+            lastDeleted = charge
             viewModel.deleteFavorite(charge, cookie)
         }
 

@@ -1,6 +1,6 @@
 package com.example.polyenergy.domain
 
 data class BackResponse(
-    val succes: String?,
+    val success: String?,
     val error: String?
 )

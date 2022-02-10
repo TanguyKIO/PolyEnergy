@@ -37,11 +37,11 @@ class LoginViewModel : ViewModel() {
                     var loginResponse = getToken.await()
                     _loginResult.value = loginResponse
                 } catch (e: Exception) {
-                    _loginResult.value = LoginResponse(success = "Echec de connexion")
+                    _loginResult.value = LoginResponse(success = null)
                 }
 
             } catch (e: Exception) {
-                _loginResult.value = LoginResponse(success = "Echec de connexion")
+                _loginResult.value = LoginResponse(success = null)
             }
         }
     }

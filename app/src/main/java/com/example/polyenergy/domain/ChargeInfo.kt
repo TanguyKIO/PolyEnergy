@@ -7,5 +7,5 @@ data class ChargeInfo(
     val addressInfo: AddressInfo,
 
     @Json(name = "ID")
-    val idString: String,
+    val idString: Long,
 )
