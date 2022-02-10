@@ -3,14 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
-
-    <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.polyenergy.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" >
-    </fragment>
+    app:startDestination="@+id/nav_carmap">
 
     <fragment
         android:id="@+id/nav_carmap"
@@ -30,12 +23,19 @@
         android:id="@+id/nav_signup"
         android:name="com.example.polyenergy.ui.register.RegisterFragment"
         android:label="@string/menu_signup"
-        tools:layout="@layout/fragment_signup" >
+        tools:layout="@layout/fragment_create" >
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_fav"
+        android:name="com.example.polyenergy.ui.favorite.FavoriteFragment"
+        android:label="Favorite"
+        tools:layout="@layout/fragment_favorite" />
+
+
     <action
-        android:id="@+id/action_global_home"
-        app:destination="@id/nav_home" />
+        android:id="@+id/action_global_fav"
+        app:destination="@id/nav_fav" />
 
     <action
         android:id="@+id/action_global_map"
@@ -46,4 +46,6 @@
 
     <action android:id="@+id/action_global_signup"
         app:destination="@id/nav_signup"/>
+
+
 </navigation>

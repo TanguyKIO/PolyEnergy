@@ -1,8 +1,5 @@
 package com.example.polyenergy.ui.login
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.polyenergy.R
 import com.example.polyenergy.SessionManager
@@ -64,12 +64,7 @@ class LoginFragment : Fragment() {
             Observer { loginResult ->
                 loginResult ?: return@Observer
                 loadingProgressBar.visibility = View.GONE
-                loginResult.token?.let {
-                    session.saveAuthToken(it)
-                    Navigation.findNavController(view).navigate(R.id.action_global_home)
-                }?:run {
-                    showLoginFailed(loginResult.success)
-                }
+                Navigation.findNavController(view).navigate(R.id.action_global_map)
             })
 
         val afterTextChangedListener = object : TextWatcher {

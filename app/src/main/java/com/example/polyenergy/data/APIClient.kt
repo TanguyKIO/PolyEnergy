@@ -1,7 +1,10 @@
 package com.example.polyenergy.data
 
 import android.content.Context
+import com.example.polyenergy.SERVER_URL
 import com.example.polyenergy.SessionManager
+import com.example.polyenergy.domain.BackResponse
+import com.example.polyenergy.domain.ChargeInfo
 import com.example.polyenergy.domain.LoginParam
 import com.example.polyenergy.domain.LoginResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -13,29 +16,48 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 import java.io.IOException
 
 interface EnergyService {
 
-    @POST()
+    @POST("auth/login")
     fun postLoginAsync(@Body login: LoginParam): Deferred<LoginResponse>
 
-    @POST()
+    @POST("auth/register")
     fun postRegisterAsync(@Body login: LoginParam): Deferred<LoginResponse>
 
-    @GET()
-    fun getObjectsAsync(@Header("Cookie") cookie: String): Deferred<List<String>>
+    @GET("OpenCharge/poi")
+    fun getOpenCharges(
+        @Query("boundingBox") boundBox: String,
+        @Query("verbose") verbose: Boolean,
+        @Query("compact") compact: Boolean
+    ): Deferred<List<ChargeInfo>>
 
-    @POST()
-    fun getObjectsLogsAsync(@Header("Cookie", ) cookie: String, @Body id: String): Deferred<List<String>>
+    @GET("OpenCharge/liked")
+    fun getFavoritesList(@Header("Cookie") cookie: String): Deferred<List<ChargeInfo>>
+
+    @POST("OpenCharge/toggleLike")
+    fun postFavorites(@Body charge: ChargeInfo, @Header("Cookie") cookie: String): Deferred<BackResponse>
+
 }
 
-object EnergyAPI {
+private val moshi = Moshi.Builder()
+    .add(KotlinJsonAdapterFactory())
+    .build()
 
+private val retrofit = Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .addCallAdapterFactory(CoroutineCallAdapterFactory())
+    .baseUrl(SERVER_URL)
+    .build()
+
+
+object OpenChargeApi {
+    val retrofitService: EnergyService by lazy { retrofit.create(EnergyService::class.java) }
+}
+
+object LoginApi {
     lateinit var retrofitService: EnergyService
 
     private var retrofit: Retrofit? = null
@@ -58,16 +80,11 @@ object EnergyAPI {
                 })
                 .build()
 
-            val moshi = Moshi.Builder()
-                .add(KotlinJsonAdapterFactory())
-                .build()
-
-
             retrofit = Retrofit.Builder()
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .client(httpClient)
-                .baseUrl("BASE URL")
+                .baseUrl(SERVER_URL)
                 .build()
             retrofitService = retrofit!!.create(EnergyService::class.java)
         }

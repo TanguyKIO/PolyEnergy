@@ -65,12 +65,7 @@ class RegisterFragment : Fragment() {
             Observer { registerResult ->
                 registerResult ?: return@Observer
                 loadingProgressBar.visibility = View.GONE
-                registerResult.token?.let {
-                    session.saveAuthToken(it)
-                    Navigation.findNavController(view).navigate(R.id.action_global_home)
-                }?:run {
-                    showLoginFailed(registerResult.success)
-                }
+                Navigation.findNavController(view).navigate(R.id.action_global_map)
             })
 
         val afterTextChangedListener = object : TextWatcher {
@@ -109,7 +104,7 @@ class RegisterFragment : Fragment() {
         }
 
         binding.existingAccount.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.login)
+            Navigation.findNavController(view).navigate(R.id.nav_login)
         }
     }
 

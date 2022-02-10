@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.polyenergy.R
-import com.example.polyenergy.data.EnergyAPI
+import com.example.polyenergy.data.LoginApi
 import com.example.polyenergy.domain.LoginParam
 import com.example.polyenergy.domain.LoginResponse
 import kotlinx.coroutines.CoroutineScope
@@ -31,17 +31,17 @@ class LoginViewModel : ViewModel() {
     fun login(username: String, password: String, context: Context) {
         coroutineScope.launch {
             try {
-                EnergyAPI.setRetrofit(context)
-                val getToken = EnergyAPI.retrofitService.postLoginAsync(LoginParam(username, password))
+                LoginApi.setRetrofit(context)
+                val getToken = LoginApi.retrofitService.postLoginAsync(LoginParam(username, password))
                 try {
                     var loginResponse = getToken.await()
                     _loginResult.value = loginResponse
                 } catch (e: Exception) {
-                    _loginResult.value = LoginResponse(success = "Echec de connexion", null)
+                    _loginResult.value = LoginResponse(success = "Echec de connexion")
                 }
 
             } catch (e: Exception) {
-                _loginResult.value = LoginResponse(success = "Echec de connexion", null)
+                _loginResult.value = LoginResponse(success = "Echec de connexion")
             }
         }
     }

@@ -3,18 +3,17 @@ package com.example.polyenergy.domain
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 
-data class Localisation(
-    val name: String,
+data class Charge(
+    val name: String?,
     val latLng: LatLng,
-    val address: String,
-    val rating: Float
+    val address: String?
 ) : ClusterItem {
     override fun getPosition(): LatLng =
         latLng
 
-    override fun getTitle(): String =
+    override fun getTitle(): String? =
         name
 
-    override fun getSnippet(): String =
+    override fun getSnippet(): String? =
         address
 }

@@ -5,11 +5,11 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.polyenergy.ui.login.LoginFormState
 import com.example.polyenergy.R
-import com.example.polyenergy.data.EnergyAPI
+import com.example.polyenergy.data.LoginApi
 import com.example.polyenergy.domain.LoginParam
 import com.example.polyenergy.domain.LoginResponse
+import com.example.polyenergy.ui.login.LoginFormState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -30,17 +30,17 @@ class RegisterViewModel : ViewModel() {
     fun register(username: String, password: String, context: Context) {
         coroutineScope.launch {
             try {
-                EnergyAPI.setRetrofit(context)
-                val getToken = EnergyAPI.retrofitService.postRegisterAsync(LoginParam(username, password))
+                LoginApi.setRetrofit(context)
+                val getToken = LoginApi.retrofitService.postRegisterAsync(LoginParam(username, password))
                 try {
                     var loginResponse = getToken.await()
                     _registerResult.value = loginResponse
                 } catch (e: Exception) {
-                    _registerResult.value = LoginResponse(success = "Echec de connexion", null)
+                    _registerResult.value = LoginResponse(success = "Echec de connexion")
                 }
 
             } catch (e: Exception) {
-                _registerResult.value = LoginResponse(success = "Echec de connexion", null)
+                _registerResult.value = LoginResponse(success = "Echec de connexion")
             }
         }
     }
