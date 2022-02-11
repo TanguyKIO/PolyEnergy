@@ -8,4 +8,7 @@ data class ChargeInfo(
 
     @Json(name = "ID")
     val idString: Long,
+
+    @Json(name = "DateLastStatusUdpate")
+    val date: String,
 )

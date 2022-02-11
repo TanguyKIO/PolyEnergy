@@ -100,7 +100,7 @@ class FavoriteFragment : Fragment() {
     private fun onClickListener(charge: ChargeInfo) {
         val bundle = Bundle()
         bundle.putDouble(LATITUDE, charge.addressInfo.latitude)
-        bundle.putDouble(LONGITUDE, charge.addressInfo.latitude)
+        bundle.putDouble(LONGITUDE, charge.addressInfo.longitude)
         Navigation.findNavController(binding.root).navigate(R.id.nav_carmap, bundle)
     }
 
