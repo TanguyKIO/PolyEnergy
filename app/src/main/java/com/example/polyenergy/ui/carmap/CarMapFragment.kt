@@ -3,11 +3,13 @@ package com.example.polyenergy.ui.carmap
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,10 +31,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
@@ -51,9 +50,10 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
 
     private var cameraInitialized: Boolean = false
     private var isSearchResult: Boolean = false
+    private val zoom = 14F
 
     private val bicycleIcon: BitmapDescriptor by lazy {
-        val color = ContextCompat.getColor(requireContext(), R.color.blue)
+        val color = ContextCompat.getColor(requireContext(), R.color.white)
         BitmapHelper.vectorToBitmap(requireContext(), R.drawable.ic_charge_icon, color)
     }
 
@@ -69,6 +69,9 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync { googleMap ->
+            googleMap.setMapStyle(
+            MapStyleOptions.loadRawResourceStyle(
+                requireContext(), R.raw.map_style))
             addMarkers(googleMap)
             if (ContextCompat.checkSelfPermission(
                     requireContext(),
@@ -95,7 +98,7 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
                         map.animateCamera(
                             CameraUpdateFactory.newLatLngZoom(
                                 LatLng(location.latitude, location.longitude),
-                                15F
+                                zoom
                             )
                         )
                         cameraInitialized = true
@@ -127,10 +130,11 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
         val latitude = arguments?.getDouble(LATITUDE)
         val longitude = arguments?.getDouble(LONGITUDE)
         if (latitude != null && longitude != null) {
+            viewModel.loadCharges(latitude, longitude)
             map.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     LatLng(latitude, longitude),
-                    15F
+                    zoom
                 )
             )
             cameraInitialized = true
@@ -184,6 +188,9 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
                 }
             })
         }
+        val searchView = binding.root.findViewById<EditText>(R.id.places_autocomplete_search_input)
+        searchView.setHintTextColor(Color.WHITE)
+        searchView.setTextColor(Color.WHITE)
     }
 
 
@@ -256,7 +263,7 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
                         map.animateCamera(
                             CameraUpdateFactory.newLatLngZoom(
                                 LatLng(charge.addressInfo.latitude, charge.addressInfo.longitude),
-                                15F
+                                zoom
                             )
                         )
                         cameraInitialized = true
@@ -296,8 +303,10 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
             ).getString(USER_COOKIE, null)
             if (cookie != null) {
                 viewModel.setFavorite(it.tag as ChargeInfo, cookie)
+                it.hideInfoWindow()
+            } else {
+                Toast.makeText(requireContext(),"Connectez-vous pour ajouter des favoris", Toast.LENGTH_SHORT).show()
             }
-            // CHANGER ETAT BOUTON
         }
     }
 }

@@ -35,17 +35,10 @@ class CarMapViewModel : ViewModel() {
     ) {
         coroutineScope.launch {
             try {
-                val maxLat = latitude - 0.1
-                val maxLong = longitude - 0.1
-                val minLat = latitude + 0.1
-                val minLong = longitude + 0.1
-                val verbose = false
-                val compact = true
-                val boundBox = "($maxLat,$minLong),($$minLat,$maxLong)"
                 val getCharges = OpenChargeApi.retrofitService.getOpenCharges(
-                    boundBox,
-                    verbose,
-                    compact
+                    latitude,
+                    longitude,
+                    30.0
                 )
                 try {
                     var response = getCharges.await()

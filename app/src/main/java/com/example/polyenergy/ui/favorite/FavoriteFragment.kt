@@ -12,10 +12,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.polyenergy.LATITUDE
-import com.example.polyenergy.LONGITUDE
-import com.example.polyenergy.R
-import com.example.polyenergy.USER_COOKIE
+import com.example.polyenergy.*
 import com.example.polyenergy.databinding.FragmentFavoriteBinding
 import com.example.polyenergy.domain.ChargeInfo
 
@@ -82,6 +79,15 @@ class FavoriteFragment : Fragment() {
             items = it as MutableList<ChargeInfo>
             adapter.items = it
             adapter.notifyDataSetChanged()
+        }
+
+        binding.disconnect.setOnClickListener {
+            SessionManager(requireContext()).deleteCookie()
+            Navigation.findNavController(binding.root).navigate(R.id.nav_login)
+        }
+
+        binding.backButton.setOnClickListener {
+            Navigation.findNavController(binding.root).navigate(R.id.nav_carmap)
         }
     }
 

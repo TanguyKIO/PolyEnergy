@@ -10,5 +10,5 @@ data class ChargeInfo(
     val idString: Long,
 
     @Json(name = "DateLastStatusUdpate")
-    val date: String,
+    val date: String?,
 )

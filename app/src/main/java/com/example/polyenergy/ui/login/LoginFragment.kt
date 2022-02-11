@@ -103,6 +103,10 @@ class LoginFragment : Fragment() {
         binding.newAccount.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_global_signup)
         }
+
+        binding.backButton.setOnClickListener {
+            Navigation.findNavController(binding.root).navigate(R.id.nav_carmap)
+        }
     }
 
     private fun showLoginFailed(message: String) {

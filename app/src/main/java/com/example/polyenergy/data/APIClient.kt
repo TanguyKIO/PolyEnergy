@@ -29,9 +29,9 @@ interface EnergyService {
 
     @GET("OpenCharge/poi")
     fun getOpenCharges(
-        @Query("boundingBox") boundBox: String,
-        @Query("verbose") verbose: Boolean,
-        @Query("compact") compact: Boolean
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("distance") distance: Double
     ): Deferred<List<ChargeInfo>>
 
     @GET("OpenCharge/liked")

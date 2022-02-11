@@ -3,7 +3,6 @@ package com.example.polyenergy
 import android.content.Context
 import android.content.SharedPreferences
 
-const val USER_TOKEN = "USER_TOKEN"
 const val USER_COOKIE = "USER_COOKIE"
 
 class SessionManager(context: Context) {
@@ -12,9 +11,9 @@ class SessionManager(context: Context) {
         Context.MODE_PRIVATE
     )
 
-    fun saveAuthToken(token: String?) {
+    fun deleteCookie() {
         val editor = prefs.edit()
-        editor.putString(USER_TOKEN, token)
+        editor.putString(USER_COOKIE, null)
         editor.apply()
     }
 

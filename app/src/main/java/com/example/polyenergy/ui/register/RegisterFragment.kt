@@ -106,6 +106,10 @@ class RegisterFragment : Fragment() {
         binding.existingAccount.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.nav_login)
         }
+
+        binding.backButton.setOnClickListener {
+            Navigation.findNavController(binding.root).navigate(R.id.nav_carmap)
+        }
     }
 
     private fun showLoginFailed(message: String) {
