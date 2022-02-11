@@ -167,7 +167,7 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
 
     private fun setAutoCompletePlaces() {
         if (!Places.isInitialized()) {
-            Places.initialize(requireContext(), "AIzaSyA6Sbv6Es-0CEEYZ_frHy9t_vTxGOLWWTY")
+            Places.initialize(requireContext(), getString(R.string.api_key))
         }
         val fragment =
             childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
@@ -180,11 +180,7 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
                 }
 
                 override fun onError(status: Status) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Erreur lors de la recherche",
-                        Toast.LENGTH_SHORT
-                    ).show()
+
                 }
             })
         }
@@ -305,7 +301,7 @@ class CarMapFragment : Fragment(), OnMyLocationButtonClickListener {
                 viewModel.setFavorite(it.tag as ChargeInfo, cookie)
                 it.hideInfoWindow()
             } else {
-                Toast.makeText(requireContext(),"Connectez-vous pour ajouter des favoris", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),getString(R.string.connect_to_fav), Toast.LENGTH_SHORT).show()
             }
         }
     }

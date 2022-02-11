@@ -27,4 +27,8 @@
     <string name="email_hint">Entrer votre e-mail</string>
     <string name="password_hint">Saisir votre mot de passe</string>
     <string name="verif_pwd">Vérifier votre mot de passe</string>
+    <string name="click_to_fav">Cliquer pour ajouter en favori</string>
+    <string name="connect_to_fav">Connectez-vous pour ajouter en favori</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="list_fav">Favorite list</string>
 </resources>

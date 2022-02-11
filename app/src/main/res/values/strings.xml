@@ -28,5 +28,11 @@
     <string name="email_hint">Enter your e-mail</string>
     <string name="password_hint">Enter your password</string>
     <string name="verif_pwd">Verify your password</string>
-    <string name="click_to_fav">Cliquer pour ajouter en favori</string>
+    <string name="click_to_fav">Click to add in favorite</string>
+    <string name="connect_to_fav">Log in to add favorites</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="list_fav">Favorite list</string>
+
+    <string name="api_key" translatable="false">AIzaSyA6Sbv6Es-0CEEYZ_frHy9t_vTxGOLWWTY</string>
+
 </resources>
